@@ -7,6 +7,9 @@ package VIEW;
 import DAO.FuncionarioDAO;
 import DTO.FuncionarioDTO;
 import javax.swing.JOptionPane;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,6 +22,7 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
      */
     public frmFuncionarioVIEW() {
         initComponents();
+        listarFuncionario();
     }
 
     /**
@@ -35,6 +39,11 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
         txtNome = new javax.swing.JTextField();
         txtEndereco = new javax.swing.JTextField();
         btnCadastrar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabelaFuncionario = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        txtCodigo = new javax.swing.JTextField();
+        btnCarregarCampos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -49,27 +58,74 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
             }
         });
 
+        tabelaFuncionario.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "ID", "NOME", "ENDEREÇO"
+            }
+        ));
+        jScrollPane1.setViewportView(tabelaFuncionario);
+
+        jLabel3.setText("Codigo");
+
+        txtCodigo.setEditable(false);
+        txtCodigo.setEnabled(false);
+        txtCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoActionPerformed(evt);
+            }
+        });
+
+        btnCarregarCampos.setText("CarregarCampos");
+        btnCarregarCampos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCarregarCamposActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCadastrar)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(6, 6, 6)
-                            .addComponent(jLabel2))
-                        .addComponent(jLabel1)
-                        .addComponent(txtEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
-                        .addComponent(txtNome)))
-                .addContainerGap(203, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnCadastrar)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(6, 6, 6)
+                                            .addComponent(jLabel2))
+                                        .addComponent(jLabel1)
+                                        .addComponent(txtEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                                        .addComponent(txtNome))
+                                    .addComponent(jLabel3)
+                                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnCarregarCampos)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
+                .addGap(21, 21, 21)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -77,9 +133,13 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(29, 29, 29)
                 .addComponent(btnCadastrar)
-                .addContainerGap(146, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCarregarCampos)
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         pack();
@@ -87,9 +147,18 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
 
-        Cadastrar();
-
+        cadastrar();
+       listarFuncionario();
     }//GEN-LAST:event_btnCadastrarActionPerformed
+
+    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoActionPerformed
+
+    private void btnCarregarCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarregarCamposActionPerformed
+      
+        carregarCampos();
+    }//GEN-LAST:event_btnCarregarCamposActionPerformed
 
     /**
      * @param args the command line arguments
@@ -128,14 +197,19 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
+    private javax.swing.JButton btnCarregarCampos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tabelaFuncionario;
+    private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtEndereco;
     private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
 
 //Metodo que vai no botão cadastrar
-    private void Cadastrar() {
+    private void cadastrar() {
         String nome, endereco;
 
         nome = txtNome.getText();
@@ -145,13 +219,46 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
 
         funcionarioDTO.setNome(nome);
         funcionarioDTO.setEndereco(endereco);
-        
+
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
         funcionarioDAO.cadastrarFuncionario(funcionarioDTO);
-        
-        
-        JOptionPane.showMessageDialog(null, "Funcionario Cadastrado com Sucesso!");
-        
+
+        txtNome.setText("");
+        txtEndereco.setText("");
+
     }
 
+    //Metodo de pesquisar
+    private void listarFuncionario() {
+        try {
+            FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+            DefaultTableModel model = (DefaultTableModel) tabelaFuncionario.getModel();
+            model.setNumRows(0);
+
+            ArrayList<FuncionarioDTO> lista = funcionarioDAO.pesquisarFuncionario();
+
+            for (int num = 0; num < lista.size(); num++  ) {
+                model.addRow(new Object[]{
+                lista.get(num).getId(),
+                lista.get(num).getNome(),
+                lista.get(num).getEndereco(),
+                    
+                });
+            }
+
+        } catch (Exception erro) {
+            JOptionPane.showMessageDialog(null, "ListarFuncionario: " + erro);
+        }
+
+    }
+    private void carregarCampos(){
+        
+    int setar  = tabelaFuncionario.getSelectedRow();
+    
+    txtCodigo.setText(tabelaFuncionario.getModel().getValueAt(setar, 0).toString());
+    txtNome.setText(tabelaFuncionario.getModel().getValueAt(setar, 1).toString());
+    txtEndereco.setText(tabelaFuncionario.getModel().getValueAt(setar, 2).toString());
+   
+    }
+    
 }

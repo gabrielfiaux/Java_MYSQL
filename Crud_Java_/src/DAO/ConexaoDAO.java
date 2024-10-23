@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 public class ConexaoDAO {
 
     public Connection conectaBD() {
-        
+
         Connection conn = null;
 
         //se houver um erro em um pc diferente pode estar aqui
