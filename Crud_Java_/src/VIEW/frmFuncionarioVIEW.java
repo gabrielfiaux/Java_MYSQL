@@ -148,7 +148,7 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
 
         cadastrar();
-       listarFuncionario();
+        listarFuncionario();
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
@@ -156,7 +156,7 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCodigoActionPerformed
 
     private void btnCarregarCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarregarCamposActionPerformed
-      
+
         carregarCampos();
     }//GEN-LAST:event_btnCarregarCamposActionPerformed
 
@@ -222,9 +222,7 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
 
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
         funcionarioDAO.cadastrarFuncionario(funcionarioDTO);
-
-        txtNome.setText("");
-        txtEndereco.setText("");
+        limparCampos();
 
     }
 
@@ -237,13 +235,11 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
 
             ArrayList<FuncionarioDTO> lista = funcionarioDAO.pesquisarFuncionario();
 
-            for (int num = 0; num < lista.size(); num++  ) {
+            for (int num = 0; num < lista.size(); num++) {
                 model.addRow(new Object[]{
-                lista.get(num).getId(),
-                lista.get(num).getNome(),
-                lista.get(num).getEndereco(),
-                    
-                });
+                    lista.get(num).getId(),
+                    lista.get(num).getNome(),
+                    lista.get(num).getEndereco(),});
             }
 
         } catch (Exception erro) {
@@ -251,14 +247,22 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
         }
 
     }
-    private void carregarCampos(){
-        
-    int setar  = tabelaFuncionario.getSelectedRow();
-    
-    txtCodigo.setText(tabelaFuncionario.getModel().getValueAt(setar, 0).toString());
-    txtNome.setText(tabelaFuncionario.getModel().getValueAt(setar, 1).toString());
-    txtEndereco.setText(tabelaFuncionario.getModel().getValueAt(setar, 2).toString());
-   
+
+    // Metodo para colocar os valores da tabela nos txtField
+    private void carregarCampos() {
+
+        int setar = tabelaFuncionario.getSelectedRow();
+
+        txtCodigo.setText(tabelaFuncionario.getModel().getValueAt(setar, 0).toString());
+        txtNome.setText(tabelaFuncionario.getModel().getValueAt(setar, 1).toString());
+        txtEndereco.setText(tabelaFuncionario.getModel().getValueAt(setar, 2).toString());
+
     }
-    
+  // limpa campos 
+    private void limparCampos() {
+        txtCodigo.setText("");
+        txtNome.setText("");
+        txtEndereco.setText("");
+    }
+
 }
